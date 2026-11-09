@@ -1,0 +1,38 @@
+[project]
+name = "fastapi-celery-worker"
+version = "0.1.0"
+description = "Celery worker for web content scraping and summarization"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    # Task Queue
+    "celery>=5.5.3",
+    "redis>=6.4.0",
+    
+    # Web Framework (for health checks)
+    "fastapi>=0.104.0",
+    "uvicorn>=0.35.0",
+    
+    # HTTP Clients and Web Scraping
+    "httpx>=0.28.1",
+    "requests>=2.32.4",
+    "beautifulsoup4>=4.13.4",
+    "lxml>=5.3.0",
+    "readability-lxml>=0.8.1",
+    
+    # AI API
+    "openai>=1.99.6",
+    
+    # Configuration and validation
+    "pydantic>=2.11.7",
+    "pydantic-settings>=2.10.1",
+    "python-dotenv>=1.0.0",
+    
+    # Logging
+    "structlog>=25.4.0",
+    
+    # Utilities
+    "tenacity>=9.1.2",
+]
+
+# No build system needed for Upsun deployment

@@ -1,0 +1,120 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: fastapi-celery-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+    networks:
+      - fastapi-celery-network
+
+  # Uncomment the following services when you want to run the full stack with Docker
+  # You'll need to create Dockerfiles for each service first
+  
+  # api:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.api
+  #   container_name: fastapi-celery-api
+  #   ports:
+  #     - "8000:8000"
+  #   environment:
+  #     - CELERY_BROKER_URL=redis://redis:6379/0
+  #     - CELERY_RESULT_BACKEND=redis://redis:6379/0
+  #     - REDIS_URL=redis://redis:6379/0
+  #     - LOG_LEVEL=INFO
+  #     - LOG_FORMAT=json
+  #     - API_HOST=0.0.0.0
+  #     - API_PORT=8000
+  #   depends_on:
+  #     redis:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ./api:/app/api
+  #     - ./shared:/app/shared
+  #   restart: unless-stopped
+  #   networks:
+  #     - fastapi-celery-network
+  
+  # worker:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.worker
+  #   container_name: fastapi-celery-worker
+  #   environment:
+  #     - CELERY_BROKER_URL=redis://redis:6379/0
+  #     - CELERY_RESULT_BACKEND=redis://redis:6379/0
+  #     - REDIS_URL=redis://redis:6379/0
+  #     - LOG_LEVEL=INFO
+  #     - LOG_FORMAT=json
+  #     - WORKER_CONCURRENCY=4
+  #   depends_on:
+  #     redis:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ./worker:/app/worker
+  #     - ./shared:/app/shared
+  #   restart: unless-stopped
+  #   networks:
+  #     - fastapi-celery-network
+  
+  # flower:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.flower
+  #   container_name: fastapi-celery-flower
+  #   ports:
+  #     - "5555:5555"
+  #   environment:
+  #     - CELERY_BROKER_URL=redis://redis:6379/0
+  #     - CELERY_RESULT_BACKEND=redis://redis:6379/0
+  #     - REDIS_URL=redis://redis:6379/0
+  #     - FLOWER_PORT=5555
+  #     - FLOWER_BASIC_AUTH=admin:admin
+  #   depends_on:
+  #     redis:
+  #       condition: service_healthy
+  #   volumes:
+  #     - ./monitoring:/app/monitoring
+  #     - ./shared:/app/shared
+  #   restart: unless-stopped
+  #   networks:
+  #     - fastapi-celery-network
+
+volumes:
+  redis_data:
+    driver: local
+
+networks:
+  fastapi-celery-network:
+    driver: bridge
+
+# Development helper commands:
+# 
+# Start only Redis:
+#   docker-compose up redis -d
+#
+# Start Redis with logs:
+#   docker-compose up redis
+#
+# Stop services:
+#   docker-compose down
+#
+# Stop and remove volumes:
+#   docker-compose down -v
+#
+# View logs:
+#   docker-compose logs redis
+#   docker-compose logs -f redis
+#
+# Execute Redis CLI:
+#   docker-compose exec redis redis-cli
