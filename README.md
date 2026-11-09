@@ -1,7 +1,6 @@
 # FastAPI + Celery Web Content Processor
 
-A comprehensive demonstration of building async web content processing pipelines using FastAPI + Celery, designed for deployment on Upsun as a multi-app architecture.
-
+A comprehensive demonstration of building async web content processing pipelines using FastAPI + Celery
 ## 🚀 Features
 
 - **FastAPI Web Application**: High-performance async web server with automatic OpenAPI documentation
