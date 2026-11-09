@@ -264,13 +264,6 @@ curl http://localhost:8000/tasks
 - `GET /tasks` - List active tasks
 - `GET /tasks/stats` - Worker statistics
 
-## ☁️ Upsun Deployment
-
-This project is designed for deployment on Upsun platform with a multi-app architecture. Each service runs in its own container with isolated dependencies.
-
-### Multi-App Architecture
-
-The project uses Upsun's multi-app deployment with three separate applications:
 
 1. **API Application** (`api/`)
    - Source root: `api/`
@@ -325,7 +318,7 @@ Each application will:
 - Use shared utilities from local copies
 - Connect to the shared Redis service
 
-### Upsun Services
+###  Services
 
 - **API**: FastAPI web application (`https://api.{default}/`)
 - **Worker**: Celery background processors (internal service)
@@ -438,26 +431,3 @@ curl http://localhost:8000/health
 # Worker Stats  
 curl http://localhost:8000/tasks/stats
 ```
-
-## 📝 License
-
-This project is a demonstration/example for Upsun deployment and is provided as-is for educational purposes.
-
-## 🤝 Contributing
-
-This is a demonstration project. For production use, consider:
-
-- Adding authentication/authorization
-- Implementing real AI models
-- Adding database persistence
-- Implementing rate limiting
-- Adding comprehensive monitoring
-- Setting up CI/CD pipelines
-
-## 📚 Additional Resources
-
-- [FastAPI Documentation](https://fastapi.tiangolo.com/)
-- [Celery Documentation](https://docs.celeryproject.org/)
-- [Upsun Documentation](https://docs.upsun.com/)
-- [Redis Documentation](https://redis.io/documentation)
-- [Flower Documentation](https://flower.readthedocs.io/)
